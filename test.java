@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 public class test {
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in); // 创建Scanner对象
@@ -36,30 +37,45 @@ public class test {
         // double c = (b-a)*1.0/(a*1.0) * 100;
         // System.out.printf("成绩提高百分比为%.2f%%\n", c);
 
-        System.out.println("石头剪刀布:1石头2剪刀3布 任一方输入4退出");
-        while(true){
-            System.out.println("第一位选手出：");
-            int firstpl = scanner.nextInt();
-            System.out.println("第二位选手出：");
-            int secondpl = scanner.nextInt();
-            if(firstpl == 4 || secondpl == 4){
-                break;
-            }
-            if(firstpl == secondpl) System.out.println("平局");
-            if(firstpl == 1){
-                if(secondpl == 2) System.out.println("选手1胜出");
-                if(secondpl == 3) System.out.println("选手2胜出");
-            }
-            if(firstpl == 2){
-                if(secondpl == 3) System.out.println("选手1胜出");
-                if(secondpl == 1) System.out.println("选手2胜出");
-            }
-            if(firstpl == 3){
-                if(secondpl == 1) System.out.println("选手1胜出");
-                if(secondpl == 2) System.out.println("选手2胜出");
-            }
-        }
+        ////一个简单的石头剪刀布游戏
+        // System.out.println("石头剪刀布:1石头2剪刀3布 任一方输入4退出");
+        // while(true){
+        //     System.out.println("第一位选手出：");
+        //     int firstpl = scanner.nextInt();
+        //     System.out.println("第二位选手出：");
+        //     int secondpl = scanner.nextInt();
+        //     if(firstpl == 4 || secondpl == 4){
+        //         break;
+        //     }
+        //     if(firstpl == secondpl) System.out.println("平局");
+        //     if(firstpl == 1){
+        //         if(secondpl == 2) System.out.println("选手1胜出");
+        //         if(secondpl == 3) System.out.println("选手2胜出");
+        //     }
+        //     if(firstpl == 2){
+        //         if(secondpl == 3) System.out.println("选手1胜出");
+        //         if(secondpl == 1) System.out.println("选手2胜出");
+        //     }
+        //     if(firstpl == 3){
+        //         if(secondpl == 1) System.out.println("选手1胜出");
+        //         if(secondpl == 2) System.out.println("选手2胜出");
+        //     }
+        // }
 
+        ////将数组从大到小排序
+        // int ns[] = {28, 12, 89, 73, 65, 18, 96, 50, 8, 36};
+        // System.out.println(Arrays.toString(ns)); // 打印数组
+        // for(int i = 0; i < ns.length; i++){
+        //     ns[i] = -ns[i];
+        // }
+        // Arrays.sort(ns);
+        // for(int i = 0; i < ns.length; i++){
+        //     ns[i] = -ns[i];
+        // }
+        // System.out.println(Arrays.toString(ns));
+
+        String s = "a + b";
+        System.out.println(s.length());
         scanner.close();
     }
 }
