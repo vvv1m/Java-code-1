@@ -28,11 +28,23 @@ public class test {
         // String s = "" + (char)a + (char)b + (char)c;
         // System.out.println(s);
 
-        System.out.println("请输入上次考试成绩");
-        int a = scanner.nextInt();
-        System.out.println("请输入本次考试成绩");
-        int b = scanner.nextInt();
-        double c = (b-a)*1.0/(a*1.0) * 100;
-        System.out.printf("成绩提高百分比为%.2f%%\n", c);
+        ////输入与格式化输出的练习
+        // System.out.println("请输入上次考试成绩");
+        // int a = scanner.nextInt();
+        // System.out.println("请输入本次考试成绩");
+        // int b = scanner.nextInt();
+        // double c = (b-a)*1.0/(a*1.0) * 100;
+        // System.out.printf("成绩提高百分比为%.2f%%\n", c);
+
+        System.out.println("石头剪刀布:1石头2剪刀3布4退出");
+        while(true){
+            System.out.println("第一位选手出：");
+            int firstpl = scanner.nextInt();
+            System.out.println("第二位选手出：");
+            
+
+        }
+
+        scanner.close();
     }
 }
