@@ -36,13 +36,28 @@ public class test {
         // double c = (b-a)*1.0/(a*1.0) * 100;
         // System.out.printf("成绩提高百分比为%.2f%%\n", c);
 
-        System.out.println("石头剪刀布:1石头2剪刀3布4退出");
+        System.out.println("石头剪刀布:1石头2剪刀3布 任一方输入4退出");
         while(true){
             System.out.println("第一位选手出：");
             int firstpl = scanner.nextInt();
             System.out.println("第二位选手出：");
-            
-
+            int secondpl = scanner.nextInt();
+            if(firstpl == 4 || secondpl == 4){
+                break;
+            }
+            if(firstpl == secondpl) System.out.println("平局");
+            if(firstpl == 1){
+                if(secondpl == 2) System.out.println("选手1胜出");
+                if(secondpl == 3) System.out.println("选手2胜出");
+            }
+            if(firstpl == 2){
+                if(secondpl == 3) System.out.println("选手1胜出");
+                if(secondpl == 1) System.out.println("选手2胜出");
+            }
+            if(firstpl == 3){
+                if(secondpl == 1) System.out.println("选手1胜出");
+                if(secondpl == 2) System.out.println("选手2胜出");
+            }
         }
 
         scanner.close();
