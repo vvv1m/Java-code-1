@@ -1,8 +1,4 @@
 import java.util.Scanner;
-import java.util.Stack;
-
-import javax.management.RuntimeErrorException;
-
 public class bianyi {
     private static int num; // 当前分析的字符位置
     private static String obj_s; // 待分析的表达式
