@@ -74,8 +74,11 @@ public class test {
         // }
         // System.out.println(Arrays.toString(ns));
 
-        String s = "a + b";
-        System.out.println(s.length());
+        // String s = "a + b";
+        // System.out.println(s.length());
+        String s = scanner.nextLine();
+        System.out.println(s);
         scanner.close();
+        
     }
 }

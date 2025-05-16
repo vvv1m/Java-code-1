@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.util.Stack;
 
+import javax.management.RuntimeErrorException;
+
 public class bianyi {
     private static int num; // 当前分析的字符位置
     private static String obj_s; // 待分析的表达式
@@ -82,9 +84,39 @@ public class bianyi {
             while(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
                 num++;
             }
+            if(num < obj_s.length() && obj_s.charAt(num) == '.'){
+                num++;
+                if(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
+                    while(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
+                        num++;
+                    }
+                } else {
+                    throw new RuntimeException("error");
+                }
+            }
+            //检测e+或e-
+            if(num < obj_s.length() && (obj_s.charAt(num) == 'e' || obj_s.charAt(num) == 'E')){
+                num++;
+                if(num < obj_s.length() && (obj_s.charAt(num) == '+' || obj_s.charAt(num) == '-')){
+                    num++;
+                }
+                if(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
+                    while(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
+                        num++;
+                    }
+                } else {
+                    throw new RuntimeException("error");
+                }
+            }
         }
         else if(Character.isLetter(c)){
-            num++;
+            while(num < obj_s.length() && Character.isLetter(obj_s.charAt(num))){
+                num++;
+            }
+            //读取字母后的数字
+            while(num < obj_s.length() && Character.isDigit(obj_s.charAt(num))){
+                num++;
+            }
         }
         else if(c == '('){
             num++;
