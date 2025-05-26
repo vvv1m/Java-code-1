@@ -18,6 +18,7 @@ public class bianyi {
                 System.out.println("False");
             }
        }
+       scanner.close();
     }
     //E->TE'
     private static void parse_E(){
@@ -37,7 +38,7 @@ public class bianyi {
             if(c == '+' || c == '-'){
                 num++;
                 parse_T();
-                parse_E1();
+                parse_E1(); 
             }
 
         }
