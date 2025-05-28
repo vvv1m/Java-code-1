@@ -101,6 +101,20 @@ public class test {
         // Student ps = new PrimaryStudent("小军", 9, 100, 5);
         // System.out.println(ps.getScore());
 
+        ////判断回文数
+        // String num;
+        // num = scanner.nextLine();
+        // String renum = new StringBuilder(num).reverse().toString();
+        // if(num.equals(renum)){
+        //     System.out.println("Ture");
+        // } else{
+        //     System.out.println("False");
+        // }
+
+        //读取一个浮点数
+        float a = scanner.nextFloat();
+        System.out.println(a);
+        
         scanner.close();
     }
 }

@@ -1,0 +1,53 @@
+字符串相关类的学习
+-String
+    -构造方法:  使用双引号直接创建
+                public String() 创建空白字符串，不含内容
+                public String(String original) 根据传入的字符串，创建字符对象
+                public String(char[] chs) 根据字符数组，创建字符串对象
+                public String(byte[] chs) 根据字节数组，创建字符串对象
+        注：当使用双引号直接赋值时会先检查该字符串在串池(在堆内存)中是否存在，不存在
+        则创建新的，存在则复用
+    -使用scanner得到的字符串，本质上是new出来的，所以如果从键盘输入是s1=abc，再定义字符
+s2=abc，用s1 == s2来判断会得到false的结果
+-StringBuilder
+    -一个容器，内容可变
+    -构造方法:  public StringBuilder() 空参构造，不含任何内容
+                public StringBuilder(String str) 根据字符串内容创建对象
+            例:StringBuilder s = new StringBuilder();
+    -常用方法:  public StringBuilder append(任意类型) 添加数据，返回对象本身
+                public StringBuilder reverse() 反转容器中内容
+                public int length() 返回长度
+                public String toString() 通过toString()实现将StringBuilder转为String
+    -注:StringBuilder是Java写好的类，Java在底层对其进行特殊处理，使其打印对象不是地址值
+而是属性值
+    -链式编程:调用方法后，不接受结果，调用新方法
+-StringJoiner
+    -也是容器，内容可变，作用是提高效率，且代码简单
+    -构造方法:  public StringJoiner(间隔符号) 创建对象，指定拼接时的间隔符号
+                public StringJoiner(间隔符号,开始符号,结束符号) 创建对象，指定符号
+    -常用方法:  public StringJoiner add(添加的内容) 添加数据，返回对象本身
+                public int length() 返回长度
+                public String toString() 返回字符串
+    -在拼接指定格式的字符串时要强于StringBuilder，但没有反转功能，可以结合使用，而且只能
+添加字符串，使用时要导包java.util.StringJoiner
+-字符串原理
+    -字符串存储的内存管理
+        -直接赋值会复用字符串常量池
+        -new出来的不会复用，而是开辟一个新的空间
+    -==比较的是什么
+        -基本数据类型比较数据值
+        -引用数据类型比较地址值
+    -字符串拼接的底层原理
+        字符串拼接有两种情况，=右边没有变量，=右边有变量，分别举例为
+            String s = "a" + "b" + "c";
+            String s1 = "a"; String s2 = s1 + "b";
+        -对于情况一，Java在编译时会生成class文件(字节码文件)，拼接的时候Java会检测是否有
+    变量参与，如果没有，则在编译时就已经是最终结果，会直接执行String s = "abc";
+        -如果拼接时有变量，在JDK8以前底层会使用StringBuilder拼接，在堆内存中至少会有两个
+    对象，一个是StringBuilder对象，一个是String对象(从源码可以看出)。到JDK8后，字符串拼接
+    有很多方案，但默认是
+        String s1 = "a";String s2 = "b";String s3 = "c";
+        String s4 = s1 + s2 + s3;
+
+    -StringBuilder提高效率的原理
+    -StringBuilder的源码分析
