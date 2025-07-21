@@ -7,8 +7,26 @@
                 public String(byte[] chs) 根据字节数组，创建字符串对象
         注：当使用双引号直接赋值时会先检查该字符串在串池(在堆内存)中是否存在，不存在
         则创建新的，存在则复用
+    -常用方法:  boolean equals() 比较两个字符串
+                boolean equalsIgnoreCase() 忽略大小写比较
+                boolean contains(目标字串) 判断是否包含字串 返回boolean
+                int indexOf(目标字串) 从前往后查找，返回字串位置(int)
+                int lastIndexOf(目标字串) 从后往前查找
+                boolean startsWith(目标字串) 检测是否以该字串开始 返回boolean
+                boolean endsWith(目标字串) 检测是否以该字串结束 返回boolean
+                String substring(int num) 提取从[num]开始到结尾的字串
+                String substring(int num1, int num2) 提取从[num1]到[num2] 前闭后开的字串
+                String trim() 去除首尾空白字符(" ","\t","\r","\n")
+                String strip() 同trim,区别在于\u3000也会被移除
+                String stripLeading() 去除前段的空白字符
+                String stripTrailing() 去除后段的空白字符
+                boolean isEmpty() 判断字符串是否为空
+                boolean isBlank() 判断字符串是否为空白字符串
+                String replace(目标字串,替换字串) 将目标字串替换为替换字串
+                String replaceAll(正则表达式)用给定的替换替换此字符串中与给定正则表达式匹配的每个子字符串。
     -使用scanner得到的字符串，本质上是new出来的，所以如果从键盘输入是s1=abc，再定义字符
 s2=abc，用s1 == s2来判断会得到false的结果
+
 -StringBuilder
     -一个容器，内容可变
     -构造方法:  public StringBuilder() 空参构造，不含任何内容
@@ -48,6 +66,24 @@ s2=abc，用s1 == s2来判断会得到false的结果
     有很多方案，但默认是
         String s1 = "a";String s2 = "b";String s3 = "c";
         String s4 = s1 + s2 + s3;
-
+    先预估最终的字符串的长度，并创建一个数组，将各个字符存入数组，再转为字符串。
+        -结论:很多字符串变量拼接，不要直接+，再底层会创建多个对象，浪费时间与性能
+        -注:无变量参与，编译之后就是拼接的结果，会复用串池中的字符串
+            有变量参与，每一行拼接的代码都会在内存中创建新的字符串，浪费内存
     -StringBuilder提高效率的原理
+        -所有要拼接的内容都会向StringBuilder中存放，不会创建很多无用空间
     -StringBuilder的源码分析
+        -整体设计
+            -创建时创建默认容量16，不够时扩容为origin*2+2
+            -如果一次性添加的数据多余origin*2+2， 则以实际容量为准。--注意一次性
+        ---源码
+            ---空参构造默认传值16，构建字节数组
+            ---append方法，传入空值，如果COMPACT_STRINGS为真且coder == LATIN1为真存入
+        null,并后移count。如果传入的不是空值则调用ensureCapacityInternal确定新的字串长
+        度是否大于容量，若大于则先调用newCapacity创建新容量大小为原容量的二倍加2，如果新
+        容量仍小于目标字串，则令新容量等于目标字串长度。如果newCapacity<=0或者大于SAFE_BOUND
+        则调用hugeCapacity。
+            ---hugeCapacity---传入minCapacity--目标最小容量，定义UNSAFE_BOUND
+                int UNSAFE_BOUND = Integer.MAX_VALUE >> coder;
+        比较minCapacity与UNSAFE_BOUND，前者大则抛出超出容量错误，后者大则返回minCapacity
+        与SAFE_BOUND中的较大者。然后用copyOf接受value和minimumCapacity，扩展容量

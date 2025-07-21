@@ -1,8 +1,11 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.beans.*;
 public class test {
-    public static void main (String[] args){
+    public static void main (String[] args) throws Exception{
         Scanner scanner = new Scanner(System.in); // 创建Scanner对象
+        
         ////浮点数运算
         // double a = 1.0;
         // double b = 3.0;
@@ -112,10 +115,59 @@ public class test {
         // }
 
         //读取一个浮点数
-        float a = scanner.nextFloat();
-        System.out.println(a);
-        
+        // System.out.println("输入一个浮点数");
+        // float a = scanner.nextFloat();
+        // System.out.println(a);
+        // int i = 100;
+        // //Integer n1 = new Integer(i);通过new符创造会有编译警告
+        // Integer n2 = Integer.valueOf(i); //静态方法valueOf(int)创建
+        // Integer n3 = Integer.valueOf("100");//静态方法valueOf(String)创建
+        // //Byte.value();
+        // int x2 = Integer.parseInt("100", 16);
+        // System.out.println(Integer.toString(100, 36));
+        // System.out.println(Integer.toHexString(100));
+        // System.out.println(Integer.toOctalString(100));
+        // System.out.println(Integer.toBinaryString(100));
+        // BeanInfo info = Introspector.getBeanInfo(Person.class);
+        // for(PropertyDescriptor pd:info.getPropertyDescriptors()){
+        //     System.out.println(pd.getName());
+        //     System.out.println(" " + pd.getReadMethod());
+        //     System.out.println(" " + pd.getWriteMethod());
+        // }
+
+        // String s = Weekday.SUN.name(); // 获取名字
+        // int n = Weekday.MON.ordinal(); // 获取定义常量的顺序 1
+        // System.out.println(s);
+        // System.out.println(n);
+        // Weekday day = Weekday.SUN;
+        // if(day.dayvalue == 0 || day.dayvalue == 1){
+        //     System.out.println("Work in home");
+        // } else{
+        //     System.out.println("Work in office");
+        // }
+        ArrayList<String> list = new ArrayList<>(); //ArrayList的创建方法
+        list.add("abc");
+        list.add("bcd"); //元素添加方法
+        System.out.print("[");
+        for(int i = 0; i < list.size(); i++){
+            if(i == list.size() - 1){
+                System.out.print(list.get(i));
+            }else{
+                System.out.print(list.get(i) + ",");
+            }
+        }
+        System.out.print("]");
+        ArrayList<Integer> list_num = new ArrayList<>(); //ArrayList中只能存引用类型，使用Integer包装类型
+        ArrayList<Character> list_char = new ArrayList<>();
+
         scanner.close();
+    }
+}
+enum Weekday{ // 本质上是class，所以可以定制方法
+    SUN(0), MON(1), TUE(2), WED(3), THU(4), FRI(5), SAT(6);
+    int dayvalue;
+    private Weekday(int dayvalue){
+        this.dayvalue = dayvalue;
     }
 }
 class City{

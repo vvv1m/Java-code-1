@@ -1,0 +1,43 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Java: 编译当前文件",
+            "command": "javac",
+            "args": [
+                "-encoding",
+                "UTF-8",
+                "-d",
+                "${fileDirname}",
+                "${file}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "编译Java文件"
+        },
+        {
+            "type": "shell",
+            "label": "Java: 运行当前文件",
+            "command": "java",
+            "args": [
+                "-Dfile.encoding=UTF-8",
+                "${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "运行Java文件",
+            "dependsOn": "Java: 编译当前文件"
+        }
+    ],
+    "version": "2.0.0"
+}
