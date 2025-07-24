@@ -1,4 +1,4 @@
-package my_static.a02demo02;
+package my_static.a01demo02;
 
 public class ArrUtil {
     private ArrUtil(){}//私有化构建方法--不让外界创建对象

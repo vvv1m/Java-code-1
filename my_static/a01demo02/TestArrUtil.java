@@ -1,4 +1,4 @@
-package my_static.a02demo02;
+package my_static.a01demo02;
 
 public class TestArrUtil {
     public static void main(String[] args){
