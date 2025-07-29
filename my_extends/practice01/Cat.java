@@ -1,4 +1,4 @@
-package my_inherit.practice01;
+package my_extends.practice01;
 
 public class Cat extends Animal{
     public void catchMouse(){
