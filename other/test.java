@@ -1,7 +1,8 @@
+package other;
 import java.util.Scanner;
-import java.util.Arrays;
+
 import java.util.ArrayList;
-import java.beans.*;
+
 public class test {
     public static void main (String[] args) throws Exception{
         Scanner scanner = new Scanner(System.in); // 创建Scanner对象
@@ -157,8 +158,6 @@ public class test {
             }
         }
         System.out.print("]");
-        ArrayList<Integer> list_num = new ArrayList<>(); //ArrayList中只能存引用类型，使用Integer包装类型
-        ArrayList<Character> list_char = new ArrayList<>();
 
         scanner.close();
     }

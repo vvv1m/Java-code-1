@@ -1,3 +1,4 @@
+package other;
 import java.util.Scanner;
 public class bianyi {
     private static int num; // 当前分析的字符位置

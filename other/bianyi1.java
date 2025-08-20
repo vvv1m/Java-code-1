@@ -1,3 +1,4 @@
+package other;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.HashMap;

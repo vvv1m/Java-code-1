@@ -1,17 +1,13 @@
-package my_abstract.abstract_demo02;
+package my_interface.interface_demo1;
 
 public abstract class Animal {
-    private String name;
-    private int age;
+    String name;
+    int age;
     public Animal() {
     }
     public Animal(String name, int age) {
         this.name = name;
         this.age = age;
-    }
-    public abstract void action();
-    public void drink(){
-        System.out.println(name + "喝水");
     }
     public String getName() {
         return name;
@@ -25,5 +21,6 @@ public abstract class Animal {
     public void setAge(int age) {
         this.age = age;
     }
-    
+    public abstract void eat();
+
 }

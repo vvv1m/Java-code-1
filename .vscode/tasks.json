@@ -3,7 +3,7 @@
         {
             "type": "shell",
             "label": "Java: 编译当前文件",
-            "command": "javac",
+            "command": "C:\\Program Files\\BellSoft\\LibericaJDK-17\\bin\\javac.exe",
             "args": [
                 "-encoding",
                 "UTF-8",
@@ -23,7 +23,7 @@
         {
             "type": "shell",
             "label": "Java: 运行当前文件",
-            "command": "java",
+            "command": "C:\\Program Files\\BellSoft\\LibericaJDK-17\\bin\\java.exe",
             "args": [
                 "-Dfile.encoding=UTF-8",
                 "${fileBasenameNoExtension}"
@@ -35,7 +35,7 @@
                 "kind": "test",
                 "isDefault": true
             },
-            "detail": "运行Java文件",
+            "detail": "使用Java 17运行",
             "dependsOn": "Java: 编译当前文件"
         }
     ],
