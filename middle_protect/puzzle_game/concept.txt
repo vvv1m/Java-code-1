@@ -1,0 +1,6 @@
+GUI---Graphical User Interface---图形用户接口
+    采用图形化的方式显示操作界面 AWT包/Swing包
+    组件
+        JFrame --- 最外层的窗体
+        JMenuBar --- 最上层的菜单
+        JLabel --- 管理图片和文字的容器
