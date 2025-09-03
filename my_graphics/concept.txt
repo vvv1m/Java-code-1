@@ -1,0 +1,9 @@
+Java提供的主要图形包
+    import java.awt.*;           // Abstract Window Toolkit
+    import java.awt.geom.*;      // 几何图形
+    import java.awt.image.*;     // 图像处理
+    import javax.swing.*;        // Swing GUI组件
+    import java.awt.event.*;     // 事件处理
+
+AWT
+    

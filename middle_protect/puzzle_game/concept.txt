@@ -4,3 +4,96 @@ GUI---Graphical User Interface---图形用户接口
         JFrame --- 最外层的窗体
         JMenuBar --- 最上层的菜单
         JLabel --- 管理图片和文字的容器
+    事件
+        执行某些动作后，会做出反应
+        事件源---按钮，图片，窗体
+        事件---对事件源的操作，鼠标单机，鼠标划入
+        绑定监听---事件源发生事件则执行对应代码
+            KeyListener---键盘监听
+            MouseListener---鼠标监听
+            ActionListioner---动作监听
+
+
+    private void initJFrame(){
+        //设置界面的宽高
+        this.setSize(603,680);
+        //设置界面的标题
+        this.setTitle("拼图 v1.0");
+        //设置界面置顶
+        this.setAlwaysOnTop(true);
+        //设置界面居中
+        this.setLocationRelativeTo(null);
+        //设置关闭模式
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //取消默认的居中放置位置，取消了才会按xy轴的形式添加组件
+        this.setLayout(null);
+    }
+
+
+    private void initJMenuBar(){
+        //创建整个的菜单对象
+        JMenuBar jMenuBar = new JMenuBar();
+        JMenu functionJMenu = new JMenu("功能");
+        JMenu aboutJMenu = new JMenu("关于我们");
+        JMenu payJMenu = new JMenu("充值入口");
+        
+        //创建选项下面的条目对象
+        JMenuItem replayItem = new JMenuItem("重新开始");
+        JMenuItem reloginItem = new JMenuItem("重新登录");
+        JMenuItem closeItem = new JMenuItem("关闭游戏");
+
+        JMenuItem accountItem = new JMenuItem("个人");
+
+        JMenuItem payItem = new JMenuItem("充值");
+
+        //将每一个选项的条目添加到选项当中
+        functionJMenu.add(replayItem);
+        functionJMenu.add(reloginItem);
+        functionJMenu.add(closeItem);
+
+        aboutJMenu.add(accountItem);
+
+        payJMenu.add(payItem);
+        //将菜单的两个选项添加到菜单当中
+        jMenuBar.add(functionJMenu);
+        jMenuBar.add(aboutJMenu);
+        jMenuBar.add(payJMenu);
+        //给整个界面设置菜单
+        this.setJMenuBar(jMenuBar);
+    }
+
+
+
+
+    //初始化数据
+    private void initData(){
+        int[] tempArr = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        Random r = new Random();
+        //获得随机索引
+        for(int i = 0; i < tempArr.length; i++){
+            int index = r.nextInt(tempArr.length);
+            int temp = tempArr[i];
+            tempArr[i] = tempArr[index];
+            tempArr[index] = temp;
+        }
+        for(int i = 0; i < tempArr.length; i++){
+            data[i / 4][i % 4] = tempArr[i];
+        }
+    }
+
+
+    //初始化图片
+    private void initImage(){
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                
+                //创建一个图片ImageIcon的对象
+                //创建一个JLabel的对象（管理容器）
+                JLabel jLabel = new JLabel(new ImageIcon("middle_protect\\puzzle_game\\image\\animal\\animal3\\"+ data[i][j] +".jpg"));
+                //指定图片位置
+                jLabel.setBounds(105*j, 105*i, 105, 105);
+                //把管理容器添加到界面中
+                this.getContentPane().add(jLabel);
+            }
+        }
+    }
