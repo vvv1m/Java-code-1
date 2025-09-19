@@ -1,0 +1,22 @@
+集合体系结构
+    Collection --- 单列集合，一次添加一个
+    Map --- 双列集合，每次添加一对数据
+单列集合
+    有标注的事接口，其余是实现类
+    顶层Collection（Interface）
+        -List（Interface）：添加的元素有序，可重复，有索引，有序指存和取的顺序一样
+            -ArrayList
+            -LinkedList
+            -Vector
+        -Set（Interface）：添加的元素无序，不重复，无索引
+            -HashSet
+                -LinkedHashSet
+            -TreeSet
+    Collection  --- 单列集合的祖宗接口，共性的方法
+        遍历方法：迭代器遍历、增强for遍历、Lambda表达式遍历。普通for不再普适，因为Set系列没有索引
+        迭代器遍历：不依赖索引
+            在java中的类是Iterator，是集合专用的遍历方式
+            可以用Iterator<E> iterator() 方法返回迭代器对象，默认指向集合的零索引
+            然后用boolean hasNext() 判断当前位置是否有元素，有则返回true
+            E next() 获取当前位置的元素，并将迭代器对象移向下一个位置
+        

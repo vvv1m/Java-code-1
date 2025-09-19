@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS浮动(Float)语法教程</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #ffffff;
+            color: #030303;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f90d19e0 0%, #f77707 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: #2c3e50;
+            border-left: 5px solid #2575fc;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+            color: #3498db;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theory {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .demo {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .code-example {
+            background: #2d3a4b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .property {
+            color: #ff9d00;
+        }
+        
+        .value {
+            color: #00fcff;
+        }
+        
+        .comment {
+            color: #5c6773;
+        }
+        
+        .visual-demo {
+            border: 2px dashed #bdc3c7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            min-height: 250px;
+        }
+        
+        .box {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .box1 {
+            background: #c23525;
+        }
+        
+        .box2 {
+            background: #1785cf;
+        }
+        
+        .box3 {
+            background: #18c560;
+        }
+        
+        .text-content {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .active {
+            background: #16a085;
+        }
+        
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <header> <!-- 采用header预设形式-->
+        <h1>这是一个网站标题</h1>
+        <p>哈基米弄南北绿豆</p>
+
+    </header>
+    <header>
+        <form action="#" onsubmit="checkForm()">
+        姓：<input type="text" name="lname"><br>
+        名：<input type="text" name="fname"><br>
+        <input type="submit" value="提交">
+    </header>
+    <div class = "container">
+        <section class = "theory">
+            
+        </section>
+    </div>
+</body>
+</html>

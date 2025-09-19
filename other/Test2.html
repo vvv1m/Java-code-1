@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页布局入门实例</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: #2c3e50;
+            border-left: 5px solid #2575fc;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+            color: #3498db;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .layout-types {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .layout-demo {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .code-example {
+            background: #2d3a4b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .property {
+            color: #ff9d00;
+        }
+        
+        .value {
+            color: #00fcff;
+        }
+        
+        .comment {
+            color: #5c6773;
+        }
+        
+        .visual-demo {
+            border: 2px dashed #bdc3c7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .demo-container {
+            flex: 1;
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .demo-header, .demo-footer {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-footer {
+            margin-top: 15px;
+            margin-bottom: 0;
+        }
+        
+        .demo-nav {
+            background: #2ecc71;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-main {
+            flex: 3;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            min-height: 250px;
+        }
+        
+        .demo-sidebar {
+            flex: 1;
+            background: #bdc3c7;
+            padding: 20px;
+            border-radius: 5px;
+            min-height: 250px;
+        }
+        
+        .demo-article {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .active {
+            background: #16a085;
+        }
+        
+        .layout-list {
+            list-style-type: none;
+        }
+        
+        .layout-list li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .layout-list li:hover {
+            background: #e8f4fc;
+            transform: translateX(5px);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .demo-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>网页布局入门实例</h1>
+        <p>学习现代网页布局的基本技术与模式</p>
+    </header>
+    
+    <div class="intro">
+        <p>网页布局是Web开发的基础。本页面展示了常见的网页布局模式及其实现方式。</p>
+    </div>
+    
+    <div class="container">
+        <section class="layout-types">
+            <h2>常见布局类型</h2>
+            
+            <ul class="layout-list">
+                <li onclick="showLayout('single')">单列布局</li>
+                <li onclick="showLayout('two-column')">两列布局</li>
+                <li onclick="showLayout('three-column')">三列布局</li>
+                <li onclick="showLayout('header-main-footer')">页头-主体-页脚布局</li>
+                <li onclick="showLayout('grid')">网格布局</li>
+                <li onclick="showLayout('holy-grail')">圣杯布局</li>
+            </ul>
+            
+            <h3>布局技术</h3>
+            <p>现代网页布局主要使用以下技术：</p>
+            <ul>
+                <li><strong>Flexbox</strong> - 一维布局模型</li>
+                <li><strong>CSS Grid</strong> - 二维布局系统</li>
+                <li><strong>Float</strong> - 传统布局方法（仍有用武之地）</li>
+                <li><strong>Positioning</strong> - 精确控制元素位置</li>
+            </ul>
+            
+            <div class="code-example">
+                <span class="comment">/* 使用Flexbox创建两列布局 */</span><br>
+                .container {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">display</span>: <span class="value">flex</span>;<br>
+                }<br>
+                .main {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">flex</span>: <span class="value">3</span>;<br>
+                }<br>
+                .sidebar {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="property">flex</span>: <span class="value">1</span>;<br>
+                }
+            </div>
+        </section>
+        
+        <section class="layout-demo">
+            <h2>布局演示</h2>
+            <p>当前显示: <span id="current-layout">单列布局</span></p>
+            
+            <div class="visual-demo">
+                <div class="demo-header">页头 (Header)</div>
+                
+                <div class="demo-nav">导航栏 (Nav)</div>
+                
+                <div class="demo-container" id="layout-container">
+                    <div class="demo-main">
+                        <div class="demo-article">
+                            <h3>文章标题</h3>
+                            <p>这是主体内容区域。布局会根据选择的布局类型而变化。</p>
+                        </div>
+                        <div class="demo-article">
+                            <h3>另一篇文章</h3>
+                            <p>响应式设计确保布局在各种设备上都能良好显示。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-sidebar" id="sidebar">
+                        <h3>侧边栏</h3>
+                        <p>一些附加内容、链接或小工具可以放在这里。</p>
+                    </div>
+                </div>
+                
+                <div class="demo-footer">页脚 (Footer)</div>
+            </div>
+            
+            <h3>响应式设计</h3>
+            <p>现代网页布局必须是响应式的，能够适应不同屏幕尺寸。使用CSS媒体查询可以实现这一点：</p>
+            
+            <div class="code-example">
+                <span class="comment">/* 移动设备样式 */</span><br>
+                @media (<span class="property">max-width</span>: <span class="value">768px</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;.container {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">flex-direction</span>: <span class="value">column</span>;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2023 网页布局入门教程 | 使用HTML5和CSS3实现</p>
+    </footer>
+
+    <script>
+        function showLayout(type) {
+            const container = document.getElementById('layout-container');
+            const sidebar = document.getElementById('sidebar');
+            const currentLayout = document.getElementById('current-layout');
+            
+            // 重置样式
+            container.style.flexDirection = 'row';
+            sidebar.style.display = 'block';
+            
+            switch(type) {
+                case 'single':
+                    currentLayout.textContent = '单列布局';
+                    sidebar.style.display = 'none';
+                    break;
+                case 'two-column':
+                    currentLayout.textContent = '两列布局';
+                    container.style.flexDirection = 'row';
+                    break;
+                case 'three-column':
+                    currentLayout.textContent = '三列布局';
+                    // 这里简化处理，实际三列布局需要额外HTML结构
+                    break;
+                case 'header-main-footer':
+                    currentLayout.textContent = '页头-主体-页脚布局';
+                    break;
+                case 'grid':
+                    currentLayout.textContent = '网格布局';
+                    break;
+                case 'holy-grail':
+                    currentLayout.textContent = '圣杯布局';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

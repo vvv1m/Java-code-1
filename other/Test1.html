@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS浮动(Float)语法教程</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: #2c3e50;
+            border-left: 5px solid #2575fc;
+            padding-left: 10px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+            color: #3498db;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theory {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .demo {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .code-example {
+            background: #2d3a4b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .property {
+            color: #ff9d00;
+        }
+        
+        .value {
+            color: #00fcff;
+        }
+        
+        .comment {
+            color: #5c6773;
+        }
+        
+        .visual-demo {
+            border: 2px dashed #bdc3c7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            min-height: 250px;
+        }
+        
+        .box {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .box1 {
+            background: #e74c3c;
+        }
+        
+        .box2 {
+            background: #3498db;
+        }
+        
+        .box3 {
+            background: #2ecc71;
+        }
+        
+        .text-content {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .active {
+            background: #16a085;
+        }
+        
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CSS浮动(Float)语法教程</h1>
+        <p>学习如何使用float属性创建布局并了解其特性</p>
+    </header>
+    
+    <div class="container">
+        <section class="theory">
+            <h2>Float语法</h2>
+            
+            <div class="code-example">
+                <span class="property">float</span>: <span class="value">left</span> | <span class="value">right</span> | <span class="value">none</span> | <span class="value">inherit</span>;
+            </div>
+            
+            <h3>属性值说明</h3>
+            <ul>
+                <li><strong>left</strong> - 元素浮动到其容器的左侧</li>
+                <li><strong>right</strong> - 元素浮动到其容器的右侧</li>
+                <li><strong>none</strong> - 默认值，元素不浮动</li>
+                <li><strong>inherit</strong> - 元素继承其父元素的float值</li>
+            </ul>
+            
+            <h3>清除浮动</h3>
+            <p>使用clear属性可以指定元素的哪一侧不允许出现浮动元素：</p>
+            
+            <div class="code-example">
+                <span class="property">clear</span>: <span class="value">left</span> | <span class="value">right</span> | <span class="value">both</span> | <span class="value">none</span>;
+            </div>
+            
+            <h3>清除浮动技巧（Clearfix）</h3>
+            <p>当容器内的所有元素都浮动时，容器的高度会塌陷，可以使用clearfix技巧解决：</p>
+            
+            <div class="code-example">
+                <span class="comment">/* 现代clearfix hack */</span><br>
+                .clearfix::after {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;content: "";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;display: table;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;clear: both;<br>
+                }
+            </div>
+        </section>
+        
+        <section class="demo">
+            <h2>浮动效果演示</h2>
+            
+            <div class="controls">
+                <button onclick="applyFloat('left')">float: left</button>
+                <button onclick="applyFloat('right')">float: right</button>
+                <button onclick="applyFloat('none')">float: none</button>
+                <button onclick="applyClear('left')">clear: left</button>
+                <button onclick="applyClear('right')">clear: right</button>
+                <button onclick="applyClear('both')">clear: both</button>
+                <button onclick="resetDemo()">重置演示</button>
+            </div>
+            
+            <h3>可视化演示</h3>
+            <p>当前应用: <span id="current-style">无</span></p>
+            
+            <div class="visual-demo clearfix" id="demo-container">
+                <div class="box box1" id="box1">Box 1</div>
+                <div class="box box2" id="box2">Box 2</div>
+                <div class="text-content">
+                    <p>这是一段示例文本，用于展示浮动元素如何影响文本的环绕。浮动元素会脱离正常的文档流，然后向左或向右移动，直到碰到包含框或另一个浮动元素为止。</p>
+                    <p>文本会环绕在浮动元素的周围，创建出杂志风格的布局效果。</p>
+                </div>
+                <div class="box box3" id="box3">Box 3</div>
+            </div>
+            
+            <h3>使用场景</h3>
+            <ul>
+                <li>图像与文本环绕（类似杂志布局）</li>
+                <li>创建多列布局</li>
+                <li>导航菜单项水平排列</li>
+                <li>浮动按钮和图标</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2023 CSS浮动教程 | 用于教学目的</p>
+    </footer>
+
+    <script>
+        function applyFloat(value) {
+            const box1 = document.getElementById('box1');
+            const box2 = document.getElementById('box2');
+            const box3 = document.getElementById('box3');
+            
+            box1.style.float = value;
+            box2.style.float = value;
+            box3.style.float = value;
+            
+            document.getElementById('current-style').textContent = `float: ${value}`;
+        }
+        
+        function applyClear(value) {
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach(box => {
+                box.style.clear = 'none';
+            });
+            
+            const box3 = document.getElementById('box3');
+            box3.style.clear = value;
+            
+            document.getElementById('current-style').textContent = `clear: ${value} (应用于绿色盒子)`;
+        }
+        
+        function resetDemo() {
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach(box => {
+                box.style.float = 'none';
+                box.style.clear = 'none';
+            });
+            
+            document.getElementById('current-style').textContent = '无';
+        }
+    </script>
+</body>
+</html>
