@@ -1,31 +1,4 @@
 `timescale 1ns / 1ps
-//主道 20s红 3s黄 27s绿 RoadA
-//支道 17s绿 3s黄 30s红 RoadB
-//两个车道同时有车 BothHaveCar = 1 -》采取上述计时方式
-//四个车道四个车道传感器 AS1 AS2 BS1 BS2，AS中有一个为1说明主道有车，支道同理
-//主道灯：AG1 绿灯，AGL1 左转绿灯，AY1 黄灯，AR1 红灯
-//		AG2 AGL2 AY2 AR2功能同上
-//		相同功能的灯用去掉数字的标识代指，因为同时亮起与熄灭 如AG1和AG2由AG控制
-//支道灯：BG1 BGL1 BY1 BR1 BG2 BGL2 BY2 BR2 功能同上
-//需要八种计时器
-//3s计时器 7s计时器 12s计时器 17s计时器 27s计时器 30s计时器 45s计时器，或许可以通过一个可传入初始值的倒计时器实现
-//运转情况：默认主道起始绿灯，支道起始红灯
-//当AS为1 BS为1时主道 AG-27s -》AY-3s -》AGL-12s -》AY-3s -》AR-30s
-//				支道 BR-45s -》BY-3s -》BGL-7s -》BY-3s -》BG-17s
-//当AS为1 BS为0
-//若仅一个方向有车时，处理方法是：该方向原来为红灯时，另一个方向立即由绿灯变为黄灯，3秒钟后再由黄灯变为红灯，同时本方
-//向由红灯变为绿灯。该方向原为绿灯时，续保持绿灯。当另一方向有车来时，作两个方向均有车处理
-
-//重写逻辑：1当AS = BS = 0或AS = 1 BS = 0，双方都没车或仅主道有车 保持主道直行灯和左转灯为绿，且倒计时为99，支道为红灯，且倒计时为99
-//2当切换至AS = 0 BS = 1，只有支道有车时，主道改为黄灯，倒计时3s，三s后变为红灯，倒计时显示为99
-//主道变为黄灯时支道也变为黄灯，同时倒计时3s，结束后支道变为绿灯，倒计时显示为99；
-//3当从逻辑1的情况切换至AS = 1 BS = 1时，将主道倒计时改为27s，亮直行绿灯，倒计时结束后改为3s，亮黄灯，结束后改为12s亮左转绿灯，结束后改为30s，亮红灯，结束后重新改为27s，亮直行绿灯，循环执行
-//  当主道将倒计时改为27s时，支道倒计时改为45s，亮红灯，结束后改为3s，亮黄灯，结束后改为7s亮左转绿灯，结束后改为3s亮黄灯，结束后改为17s亮直行绿灯，结束后重新改为45s亮红灯，循环执行
-//4当从逻辑2的情况切换至AS = 1 BS = 1时，主道支道倒计时同时改为3，亮黄灯，结束后执行3逻辑内容
-//逻辑有误，目前只发现由逻辑1转变到逻辑3时主道27s倒计时结束后直接变成12s倒计时，没有亮3s黄灯
-//逻辑有误，主道和支道都跳过了黄灯阶段
-//更改逻辑：状态机整体逻辑为，由MAIN_GREEN_HOLD为起始状态，检测sensor_combo，若为00/10，则下一状态还为MAIN_GREEN_HOLD，若为01，则直接转到状态BOTH_YELLOW_3S,
-
 module traffic_light_top(
     input wire clk_50M,
     input wire reset_btn,
@@ -147,7 +120,7 @@ lcd_top lcd_display(
 
 endmodule
 
-// 重新设计的红绿灯控制器 - 按照新的逻辑要求
+// 红绿灯控制器 - 按照4相位逻辑
 module traffic_light_controller(
     input wire clk,
     input wire reset,
@@ -171,7 +144,7 @@ module traffic_light_controller(
     output wire [3:0] side_road_state       
 );
 
-// 定义状态 - 根据新逻辑重新设计
+
 parameter [3:0] 
     // 逻辑1: AS=0,BS=0 或 AS=1,BS=0 状态
     MAIN_GREEN_HOLD = 4'd0,     // 主道绿灯保持，倒计时99
@@ -180,29 +153,21 @@ parameter [3:0]
     BOTH_YELLOW_3S = 4'd1,      // 主道黄灯，支道黄灯，同时倒计时3s
     SIDE_GREEN_HOLD = 4'd2,     // 支道绿灯保持，倒计时99
     
-    // 逻辑3&4: AS=1,BS=1 完整周期状态
-    MAIN_GREEN_27S = 4'd3,      // 主道绿灯27s，支道红灯45s
-    MAIN_YELLOW1_3S = 4'd4,     // 主道黄灯3s，支道红灯继续
-    MAIN_LEFT_12S = 4'd5,       // 主道左转绿灯12s，支道红灯继续
-    MAIN_YELLOW2_3S = 4'd6,     // 主道黄灯3s，支道红灯继续
-    SIDE_GREEN_17S = 4'd7,      // 支道绿灯17s，主道红灯30s
-    SIDE_YELLOW1_3S = 4'd8,     // 支道黄灯3s，主道红灯继续
-    SIDE_LEFT_7S = 4'd9,        // 支道左转绿灯7s，主道红灯继续
-    SIDE_YELLOW2_3S = 4'd10;    // 支道黄灯3s，主道红灯继续
+    // 逻辑3&4: AS=1,BS=1 4相位循环
+    MAIN_GREEN_27S = 4'd3,      // 相位1: 主道绿灯27s，支道红灯30s
+    MAIN_YELLOW_3S = 4'd4,      // 相位2: 主道黄灯3s，支道红灯剩余3s
+    MAIN_RED_30S = 4'd5,        // 相位3: 主道红灯30s，支道绿灯27s
+    SIDE_YELLOW_3S = 4'd6;      // 相位4: 主道红灯剩余3s，支道黄灯3s
 
 // 定义时间常量
 parameter TIME_3S  = 8'd3;
-parameter TIME_7S  = 8'd7;
-parameter TIME_12S = 8'd12;
-parameter TIME_17S = 8'd17;
 parameter TIME_27S = 8'd27;
 parameter TIME_30S = 8'd30;
-parameter TIME_45S = 8'd45;
-parameter TIME_99S = 8'd99;  // 新增99秒显示
+parameter TIME_99S = 8'd99;
 
 // 状态机信号
 reg [3:0] current_state, next_state;
-reg [3:0] from_state; // 记录转换前的状态，用于判断逻辑3还是逻辑4
+reg [3:0] from_state;
 
 // 传感器信号组合
 wire AS, BS;
@@ -211,7 +176,7 @@ assign AS = AS1 | AS2;
 assign BS = BS1 | BS2;
 assign sensor_combo = {AS, BS};
 
-// 双计时器信号 - 主道和支道分别计时
+// 双计时器信号
 reg main_timer_load, main_timer_enable;
 reg side_timer_load, side_timer_enable;
 reg [7:0] main_timer_init, side_timer_init;
@@ -253,9 +218,9 @@ always @(posedge clk or posedge reset) begin
     end
 end
 
-// 下一状态逻辑 - 根据4种逻辑实现
+// 下一状态逻辑 - 4相位循环
 always @(*) begin
-    next_state = current_state; // 默认保持当前状态
+    next_state = current_state;
     
     case (current_state)
         MAIN_GREEN_HOLD: begin
@@ -268,53 +233,49 @@ always @(*) begin
             end
         end
         
-        // 逻辑2: 双向黄灯过渡状态
         BOTH_YELLOW_3S: begin
             if (main_timer_timeout && side_timer_timeout) begin
                 case (sensor_combo)
-                    2'b01: next_state = SIDE_GREEN_HOLD;    // 仍只有支道有车
-                    2'b11: next_state = MAIN_GREEN_27S;     // 变成两道都有车，逻辑3
-                    default: next_state = MAIN_GREEN_HOLD;  // 其他情况回到逻辑1
+                    2'b01: next_state = SIDE_GREEN_HOLD;
+                    2'b11: next_state = MAIN_GREEN_27S;
+                    default: next_state = MAIN_GREEN_HOLD;
                 endcase
             end else begin
                 next_state = BOTH_YELLOW_3S;
             end
         end
         
-        // 逻辑2: 支道绿灯保持状态
         SIDE_GREEN_HOLD: begin
             case (sensor_combo)
-                2'b01: next_state = SIDE_GREEN_HOLD;        // 仍只有支道有车，保持
-                2'b11: next_state = BOTH_YELLOW_3S;         // 主道也有车了，逻辑4（通过双黄灯）
-                default: next_state = MAIN_GREEN_HOLD;      // 支道无车，回到逻辑1
+                2'b01: next_state = SIDE_GREEN_HOLD;
+                2'b11: next_state = BOTH_YELLOW_3S;
+                default: next_state = MAIN_GREEN_HOLD;
             endcase
         end
         
-        // 逻辑3&4: 完整周期状态
+        // 4相位循环
         MAIN_GREEN_27S: begin
             if (sensor_combo == 2'b11) begin
                 if (main_timer_timeout) begin
-                    next_state = MAIN_YELLOW1_3S;  // 超时后进入黄灯
+                    next_state = MAIN_YELLOW_3S;
                 end else begin
-                    next_state = MAIN_GREEN_27S;   // 未超时保持当前状态
+                    next_state = MAIN_GREEN_27S;
                 end
             end else begin
-                // 传感器状态改变，退出完整周期
                 case(sensor_combo)
                     2'b10: next_state = MAIN_GREEN_HOLD;
                     2'b01: next_state = BOTH_YELLOW_3S;
                     2'b00: next_state = MAIN_GREEN_HOLD;
-                    default: next_state = MAIN_GREEN_HOLD;
                 endcase
             end
         end
         
-        MAIN_YELLOW1_3S: begin
+        MAIN_YELLOW_3S: begin
             if (sensor_combo == 2'b11) begin
                 if (main_timer_timeout) begin
-                    next_state = MAIN_LEFT_12S;
+                    next_state = MAIN_RED_30S;
                 end else begin
-                    next_state = MAIN_YELLOW1_3S;
+                    next_state = MAIN_YELLOW_3S;
                 end
             end else begin
                 case(sensor_combo)
@@ -325,12 +286,12 @@ always @(*) begin
             end
         end
         
-        MAIN_LEFT_12S: begin
+        MAIN_RED_30S: begin
             if (sensor_combo == 2'b11) begin
-                if (main_timer_timeout) begin
-                    next_state = MAIN_YELLOW2_3S;
+                if (side_timer_timeout) begin  // 使用支道计时器判断
+                    next_state = SIDE_YELLOW_3S;
                 end else begin
-                    next_state = MAIN_LEFT_12S;
+                    next_state = MAIN_RED_30S;
                 end
             end else begin
                 case(sensor_combo)
@@ -341,76 +302,12 @@ always @(*) begin
             end
         end
         
-        MAIN_YELLOW2_3S: begin
-            if (sensor_combo == 2'b11) begin
-                if (main_timer_timeout) begin
-                    next_state = SIDE_GREEN_17S;  // 修复：应该先到支道绿灯
-                end else begin
-                    next_state = MAIN_YELLOW2_3S;
-                end
-            end else begin
-                case(sensor_combo)
-                    2'b10: next_state = MAIN_GREEN_HOLD;
-                    2'b01: next_state = BOTH_YELLOW_3S;
-                    2'b00: next_state = MAIN_GREEN_HOLD;
-                endcase
-            end
-        end
-        
-        SIDE_GREEN_17S: begin
-            if (sensor_combo == 2'b11) begin
-                if (side_timer_timeout) begin  // 使用支道计时器
-                    next_state = SIDE_YELLOW1_3S;
-                end else begin
-                    next_state = SIDE_GREEN_17S;
-                end
-            end else begin
-                case(sensor_combo)
-                    2'b10: next_state = MAIN_GREEN_HOLD;
-                    2'b01: next_state = BOTH_YELLOW_3S;
-                    2'b00: next_state = MAIN_GREEN_HOLD;
-                endcase
-            end
-        end
-        
-        SIDE_YELLOW1_3S: begin
+        SIDE_YELLOW_3S: begin
             if (sensor_combo == 2'b11) begin
                 if (side_timer_timeout) begin
-                    next_state = SIDE_LEFT_7S;
+                    next_state = MAIN_GREEN_27S;  // 回到相位1，循环执行
                 end else begin
-                    next_state = SIDE_YELLOW1_3S;
-                end
-            end else begin
-                case(sensor_combo)
-                    2'b10: next_state = MAIN_GREEN_HOLD;
-                    2'b01: next_state = BOTH_YELLOW_3S;
-                    2'b00: next_state = MAIN_GREEN_HOLD;
-                endcase
-            end
-        end
-        
-        SIDE_LEFT_7S: begin
-            if (sensor_combo == 2'b11) begin
-                if (side_timer_timeout) begin
-                    next_state = SIDE_YELLOW2_3S;
-                end else begin
-                    next_state = SIDE_LEFT_7S;
-                end
-            end else begin
-                case(sensor_combo)
-                    2'b10: next_state = MAIN_GREEN_HOLD;
-                    2'b01: next_state = BOTH_YELLOW_3S;
-                    2'b00: next_state = MAIN_GREEN_HOLD;
-                endcase
-            end
-        end
-        
-        SIDE_YELLOW2_3S: begin
-            if (sensor_combo == 2'b11) begin
-                if (side_timer_timeout) begin
-                    next_state = MAIN_GREEN_27S;  // 重新开始周期
-                end else begin
-                    next_state = SIDE_YELLOW2_3S;
+                    next_state = SIDE_YELLOW_3S;
                 end
             end else begin
                 case(sensor_combo)
@@ -440,7 +337,7 @@ always @(posedge clk or posedge reset) begin
     end
 end
 
-// 计时器初值设置
+// 计时器初值设置 - 4相位时序
 always @(*) begin
     case (current_state)
         MAIN_GREEN_HOLD: begin
@@ -458,58 +355,38 @@ always @(*) begin
             side_timer_init = TIME_99S;
         end
         
+        // 相位1: 主道绿灯27s，支道红灯30s
         MAIN_GREEN_27S: begin
             main_timer_init = TIME_27S;
-            side_timer_init = TIME_45S;
+            side_timer_init = TIME_30S;
         end
         
-        MAIN_YELLOW1_3S: begin
+        // 相位2: 主道黄灯3s，支道红灯剩余3s
+        MAIN_YELLOW_3S: begin
             main_timer_init = TIME_3S;
-            side_timer_init = TIME_45S - TIME_27S;
+            side_timer_init = TIME_3S;  // 支道红灯剩余3s
         end
         
-        MAIN_LEFT_12S: begin
-            main_timer_init = TIME_12S;
-            side_timer_init = TIME_45S - TIME_27S - TIME_3S;
-        end
-        
-        MAIN_YELLOW2_3S: begin
-            main_timer_init = TIME_3S;
-            side_timer_init = TIME_45S - TIME_27S - TIME_3S - TIME_12S;
-        end
-        
-        SIDE_GREEN_17S: begin
+        // 相位3: 主道红灯30s，支道绿灯27s
+        MAIN_RED_30S: begin
             main_timer_init = TIME_30S;
-            side_timer_init = TIME_17S;
-        end
-
-        SIDE_YELLOW1_3S: begin
-            main_timer_init = TIME_30S - TIME_17S;
-            side_timer_init = TIME_3S;
+            side_timer_init = TIME_27S;
         end
         
-        SIDE_LEFT_7S: begin
-            main_timer_init = TIME_30S - TIME_17S - TIME_3S;
-            side_timer_init = TIME_7S;
+        // 相位4: 主道红灯剩余3s，支道黄灯3s
+        SIDE_YELLOW_3S: begin
+            main_timer_init = TIME_3S;   // 主道红灯剩余3s
+            side_timer_init = TIME_3S;   // 支道黄灯3s
         end
         
-        SIDE_YELLOW2_3S: begin
-            main_timer_init = TIME_30S - TIME_17S - TIME_3S - TIME_7S;
-            side_timer_init = TIME_3S;
-        end
-
-        
-
         default: begin
             main_timer_init = TIME_99S;
             side_timer_init = TIME_99S;
         end
-
-        
     endcase
 end
 
-// 输出逻辑
+// 输出逻辑 - 4相位输出控制
 always @(*) begin
     // 默认全部灯关闭
     {AG1, AG2, AGL1, AGL2, AY1, AY2, AR1, AR2} = 8'b0;
@@ -517,60 +394,47 @@ always @(*) begin
     
     case (current_state)
         MAIN_GREEN_HOLD: begin
-            {AG1, AG2, AGL1, AGL2} = 4'b1111;  // 主道直行和左转都绿灯
-            {BR1, BR2} = 2'b11;                 // 支道红灯
+            {AG1, AG2, AGL1, AGL2} = 4'b1111;
+            {BR1, BR2} = 2'b11;
         end
         
         BOTH_YELLOW_3S: begin
-            {AY1, AY2} = 2'b11;    // 主道黄灯
-            {BY1, BY2} = 2'b11;    // 支道黄灯
+            {AY1, AY2} = 2'b11;
+            {BY1, BY2} = 2'b11;
         end
         
         SIDE_GREEN_HOLD: begin
-            {AR1, AR2} = 2'b11;                 // 主道红灯
-            {BG1, BG2, BGL1, BGL2} = 4'b1111;   // 支道直行和左转都绿灯
+            {AR1, AR2} = 2'b11;
+            {BG1, BG2, BGL1, BGL2} = 4'b1111;
         end
         
+        // 相位1: 主道绿灯，支道红灯
         MAIN_GREEN_27S: begin
-            {AG1, AG2} = 2'b11;    // 主道绿灯
-            {BR1, BR2} = 2'b11;    // 支道红灯
+            {AG1, AG2} = 2'b11;
+            {BR1, BR2} = 2'b11;
         end
         
-        MAIN_YELLOW1_3S: begin
-            {AY1, AY2} = 2'b11;    // 主道黄灯
-            {BR1, BR2} = 2'b11;    // 支道红灯
+        // 相位2: 主道黄灯，支道红灯
+        MAIN_YELLOW_3S: begin
+            {AY1, AY2} = 2'b11;
+            {BR1, BR2} = 2'b11;
         end
         
-        MAIN_LEFT_12S: begin
-            {AGL1, AGL2} = 2'b11;  // 主道左转绿灯
-            {BR1, BR2} = 2'b11;    // 支道红灯
-        end
-
-        MAIN_YELLOW2_3S: begin
-            {AY1, AY2} = 2'b11;    // 主道黄灯
-            {BR1, BR2} = 2'b11;    // 支道红灯
-        end
-        SIDE_GREEN_17S: begin
-            {AR1, AR2} = 2'b11;    // 主道红灯
-            {BG1, BG2} = 2'b11;    // 支道绿灯
+        // 相位3: 主道红灯，支道绿灯
+        MAIN_RED_30S: begin
+            {AR1, AR2} = 2'b11;
+            {BG1, BG2} = 2'b11;
         end
         
-        SIDE_YELLOW1_3S: begin
-            {AR1, AR2} = 2'b11;    // 主道红灯
-            {BY1, BY2} = 2'b11;    // 支道黄灯
+        // 相位4: 主道红灯，支道黄灯
+        SIDE_YELLOW_3S: begin
+            {AR1, AR2} = 2'b11;
+            {BY1, BY2} = 2'b11;
         end
         
-        SIDE_LEFT_7S: begin
-            {AR1, AR2} = 2'b11;    // 主道红灯
-            {BGL1, BGL2} = 2'b11;  // 支道左转绿灯
-        end
-        SIDE_YELLOW2_3S: begin
-            {AR1, AR2} = 2'b11;    // 主道红灯
-            {BY1, BY2} = 2'b11;    // 支道黄灯
-        end
         default: begin
-            {AR1, AR2} = 2'b11;    // 默认主道红灯
-            {BR1, BR2} = 2'b11;    // 默认支道红灯
+            {AR1, AR2} = 2'b11;
+            {BR1, BR2} = 2'b11;
         end
     endcase
 end
@@ -636,7 +500,7 @@ module countdown_timer(
     output wire timeout       
 );
 reg [15:0] clk_div;
-    localparam CLK_DIV_MAX = 16'd999;  // 仿真用快速时钟
+    localparam CLK_DIV_MAX = 16'd49;  // 仿真用快速时钟
 wire clk_1s;
 
 always @(posedge clk or posedge reset) begin
@@ -656,7 +520,7 @@ assign clk_1s = (clk_div == CLK_DIV_MAX);
 // 修改倒计时逻辑
 always @(posedge clk or posedge reset) begin
     if (reset) begin
-        count <= 8'd0;
+        count <= 8'd99;
     end else if (load) begin
         count <= init_value;
     end else if (enable && clk_1s && count > 0) begin

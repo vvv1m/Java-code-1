@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <p id="demo">
+    要不要点一下按钮
+  </p>
+
+  <script>
+    function myFunction() {
+      x = document.getElementById("demo"); // 找到元素
+      x.innerHTML = "让你点你就点啊！"; // 改变内容
+    }
+  </script>
+  <form>
+    <input type="button" onclick="myFunction()">
+  </form>
+  <script>
+    function HelloToSomebody(name) {
+      alert("Welcome " + name);
+      var d = new Date();
+      var theDay = d.getDay();
+      switch (theDay) {
+        case 5:
+          alert("总算熬到星期五了。");
+          break;
+        case 6:
+          alert("哈哈，周末啦！");
+          break;
+        case 0:
+          alert("明天又要上班，想想就烦。");
+          break;
+        default:
+          alert("每个工作日慢得都象蜗牛爬啊！");
+      }
+    }
+  </script>
+  <script>
+    function check() {
+      var name = document.getElementById("name").value;
+      var phone = document.getElementById("phone").value;
+      if (!/^[a-z]+$/i.test(name)) {
+        alert("姓名中只能包含英文字母\n请重新输入");
+      }
+      else if (!/^\d{7}(\d{1}(\d{3}(\d{1})?)?)?$/.test(phone)) {
+        alert("电话号码必须为数字且长度为 7,8,11或12位" + "\n请重新输入");
+      }
+      else {
+        HelloToSomebody(name);
+        CommandDay();
+      }
+    }
+  </script>
+  <form>
+    姓名：<input type="text" name="name" id="name" value="" />
+    电话：<input type="text" name="phone" id="phone" value="" />
+    <input type="button" onclick="check()">
+  </form>
+  <script>
+    var x;
+    var hobbies = new Array();         //创建一个新的数组
+    hobbies[0] = "JavaScript";
+    hobbies[1] = "CSS";
+    hobbies[2] = "篮球";
+    for (x in hobbies)                     //数组中的每一个变量
+    { document.write(hobbies[x] + "<br/>"); }
+  </script>
+
+</body>
+
+</html>
