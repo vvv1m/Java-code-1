@@ -1,44 +1,27 @@
-package my_jihe.my_set;
+package my_jihe.my_map;
 
 public class Student implements Comparable<Student>{
     private String name;
     private int age;
-    private int chinese;
-    private int math;
-    private int english;
     
     public Student() {
     }
-
     public Student(String name, int age) {
         this.name = name;
         this.age = age;
     }
-    
-    public Student(String name, int age, int chinese, int math, int english) {
-        this.name = name;
-        this.age = age;
-        this.chinese = chinese;
-        this.math = math;
-        this.english = english;
-    }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public int getAge() {
         return age;
     }
-
     public void setAge(int age) {
         this.age = age;
     }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -47,7 +30,6 @@ public class Student implements Comparable<Student>{
         result = prime * result + age;
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -66,45 +48,17 @@ public class Student implements Comparable<Student>{
             return false;
         return true;
     }
-
-
-
     @Override
     public String toString() {
-        return "Student [name=" + name + ", age=" + age + ", chinese=" + chinese + ", math=" + math + ", english="
-                + english + "]";
+        return "Student [name=" + name + ", age=" + age + "]";
     }
-
     @Override
     public int compareTo(Student o) {
-        //只看年龄，按照升序排列
+        //this表示当前要添加的元素
+        //o表示已经在红黑树中存在的元素
         int result = this.getAge() - o.getAge();
-        //if(result == 0) result = 1;
+        result = result == 0 ? this.getName().compareTo(o.getName()):result;
         return result;
-    }
-
-    public int getChinese() {
-        return chinese;
-    }
-
-    public void setChinese(int chinese) {
-        this.chinese = chinese;
-    }
-
-    public int getMath() {
-        return math;
-    }
-
-    public void setMath(int math) {
-        this.math = math;
-    }
-
-    public int getEnglish() {
-        return english;
-    }
-
-    public void setEnglish(int english) {
-        this.english = english;
     }
     
 }

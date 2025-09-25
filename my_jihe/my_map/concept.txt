@@ -1,0 +1,49 @@
+Map的底层原理
+    HashMap内部有一个内部类Node 每一个元素都是一个Node对象
+    Node类实现了Entry接口，所以称一个元素是一个Entry对象
+        包含
+        int hash //键的哈希值
+        final K key
+        V value
+        Node<K,V> next
+
+    Node中第一个成员变量就是hash，即通过键计算出的哈希值，接着是键和值
+    第四个成员变量是next，由于键不同但哈希值相同的元素会挂在老元素的下面，那么老元素就通过next记录下一个链节的地址值
+    如果是红黑树，内部节点叫TreeNode，同样是HashMap的内部类
+        包含
+        int hash
+        final K key
+        V value
+        TreeNode<K,V> parent
+        TreeNode<K,V> left
+        TreeNode<K,V> right
+        boolean red
+
+    TreeNode中有parent left和right，还有prev和布尔类型的red（用来记录颜色，红true黑false）
+    TreeNode继承LinkedHashMap中的Entry，这个Entry又继承了HashMap里的Node
+
+    HashMap内部有一个Node数组table
+    默认长度DEFAULT_INITIAL_CAPACITY 16
+    默认加载因子DEFAULT_LOAD_FACTOR 0.75
+
+    加载因子决定了table的扩容时机，当超过百分之七十五的时候需要扩容，扩容为原先的两倍
+    table最大容量为1<<30
+
+    HashMap的空参构造只会把加载因子赋给成员变量loadFactor,数组也不存在，为null
+
+    put方法：
+        put方法的参数为key和value 返回覆盖元素的值，没有覆盖则返回null
+        put方法会调用putVal，传入hash(key),key,value,onlyIfAbsent（决定键重复的数据是否会保留 ，默认为false，表示不会保留，会覆盖）,evict（默认true）
+        hash(key)函数通过键计算出对应哈希值，并对哈希值进行一定处理，具体可参考源码
+        
+        putVal内定义了一个Node数组tab，用来记录哈希表中数组的地址值
+        还有临时的第三方变量，Node类型的p，用来记录键值对对象的地址值
+            当前数组长度n，索引i
+
+
+    
+
+
+
+
+
