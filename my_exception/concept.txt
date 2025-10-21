@@ -1,0 +1,15 @@
+异常
+    异常就是程序中出现的问题
+
+注意：异常的学习并不是让程序不出异常，而是知道程序出了异常后该如何处理
+
+异常结构
+    Throwable
+        -Error 代表的系统级别的错误，开发人员不用管
+        -Exception 
+            -RuntimeException 运行时异常，编译阶段不会出现提醒
+                -NullPointerException
+                -ArithmeticException
+                -ArrayIndexOutOfBoundsException
+                -......
+            -其他异常 编译阶段就会出现异常提醒的 即由java文件到class文件的过程中，该阶段java不会运行代码，只会检查语法

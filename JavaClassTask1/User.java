@@ -1,7 +1,7 @@
 package JavaClassTask1;
 
 public class User extends Person {
-    private String role; // 角色：管理员
+    private String role;
     
     public User() {
         super();

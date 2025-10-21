@@ -14,8 +14,8 @@ public class Teacher extends Person {
     }
     
     // 带参构造方法
-    public Teacher(String name, String id, String password, String department, String title) {
-        super(name, id, password);
+    public Teacher(String name, String id, String department, String title) {
+        super(name, id, "123456"); // 默认密码为123456
         this.department = department;
         this.title = title;
         this.teachingCourses = new Vector<>();
@@ -46,15 +46,12 @@ public class Teacher extends Person {
         this.teachingCourses = teachingCourses;
     }
     
-    // ========== 课程管理相关方法 ==========
-    
     // 添加任教课程
     public boolean addTeachingCourse(Course course) {
         if (course == null) {
             System.out.println("课程不存在！");
             return false;
         }
-        
         // 检查是否已经在任教这门课
         for (Course teachingCourse : teachingCourses) {
             if (teachingCourse.getName().equals(course.getName())) {
@@ -62,14 +59,12 @@ public class Teacher extends Person {
                 return false;
             }
         }
-        
         // 设置课程的任课教师
         course.setTeacher(getName());
         teachingCourses.add(course);
         System.out.println("成功添加任教课程：" + course.getName());
         return true;
     }
-    
     // 移除任教课程
     public boolean removeTeachingCourse(String courseName) {
         for (int i = 0; i < teachingCourses.size(); i++) {
@@ -85,7 +80,6 @@ public class Teacher extends Person {
         System.out.println("您没有任教课程：" + courseName);
         return false;
     }
-    
     // 显示任教课程
     public void showTeachingCourses() {
         System.out.println("========== " + getName() + " 的任教课程 ==========");
@@ -102,7 +96,6 @@ public class Teacher extends Person {
                                  " | 学分：" + cc.getCredit());
             }
         }
-        
         System.out.println("选修课：");
         for (Course course : teachingCourses) {
             if (course instanceof Option) {
@@ -112,7 +105,6 @@ public class Teacher extends Person {
             }
         }
     }
-    
     // 查看某门课程的选课学生（需要与UserList配合使用）
     public void viewCourseStudents(String courseName) {
         Course course = null;
@@ -122,17 +114,13 @@ public class Teacher extends Person {
                 break;
             }
         }
-        
         if (course == null) {
             System.out.println("您没有任教课程：" + courseName);
             return;
         }
-        
         System.out.println("========== 课程《" + courseName + "》选课学生 ==========");
         System.out.println("当前选课人数：" + course.getChoosenum());
-        
-        // 这里需要遍历所有学生，找出选择了这门课的学生
-        // 由于需要访问UserList，这个方法可能需要在外部调用或传入学生列表
+        course.showCourseStudents();
     }
     
     // 获取任教的必修课数量

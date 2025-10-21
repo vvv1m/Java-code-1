@@ -5,6 +5,12 @@ import java.util.Vector;
 public class CourseList {
     private static Vector<CoreCourse> corelist = new Vector<>();
     private static Vector<Option> optionlist = new Vector<>();
+    public static Vector<CoreCourse> getCorelist() {
+        return corelist;
+    }
+    public static Vector<Option> getOptionlist() {
+        return optionlist;
+    }
     public static boolean addCourse(Course course){
         if(course instanceof CoreCourse){
             return corelist.add((CoreCourse)course);
@@ -27,7 +33,7 @@ public class CourseList {
             corelist.get(i).showAll();
         }
         System.out.println("选修课课表如下");
-        for(int i = 0; i < corelist.size(); i++){
+        for(int i = 0; i < optionlist.size(); i++){
             optionlist.get(i).showAll();
         }
     }
@@ -43,12 +49,15 @@ public class CourseList {
         for(int i = 0; i < corelist.size(); i++){
             if(corelist.get(i).getName().equals(coursename)){
                 corelist.get(i).setTeacher(teachername);
+                UserList.findTeacherByName(teachername).addTeachingCourse(corelist.get(i));
                 return;
             }
         }
         for(int i = 0; i < optionlist.size(); i++){
             if(optionlist.get(i).getName().equals(coursename)){
                 optionlist.get(i).setTeacher(teachername);
+                UserList.findTeacherByName(teachername).addTeachingCourse(corelist.get(i));
+                return;
             }
         }
     }
@@ -69,6 +78,9 @@ public class CourseList {
             if(corelist.get(i).getName().equals(name)){
                 return (Course)corelist.get(i);
             }
+            
+        }
+        for(int i = 0; i < optionlist.size(); i++){
             if(optionlist.get(i).getName().equals(name)){
                 return (Course)optionlist.get(i);
             }
@@ -85,5 +97,18 @@ public class CourseList {
             }
         }
 
+    }
+    public static Course findCourseByName(String name) {
+        for (CoreCourse course : corelist) {
+            if (course.getName().equals(name)) {
+                return course;
+            }
+        }
+        for (Option course : optionlist) {
+            if (course.getName().equals(name)) {
+                return course;
+            }
+        }
+        return null;
     }
 }

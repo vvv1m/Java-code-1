@@ -1,0 +1,20 @@
+流---工厂的流水线
+    Java中的流就是流水线，对数据一步步处理然后输出
+
+Stream流一般会结合Lambda表达式简化集合、数组的操作
+
+使用步骤
+    1先得到一条Stream流，并把数据放上去
+    2利用Stream流中的API进行各种操作
+        操作分为中间方法 过滤、转换 和终结方法 统计、打印
+        中间方法调用完毕后还可以调用其他方法
+        调用终结方法后就不能再调用其他的了
+
+
+得到Stream流的方法
+    单列集合 default Stream<E> stream() 是Collection中的默认方法
+    双列集合 无     无法直接使用Stream流，需要通过keySet()还有entrySet()转成单列集合
+    数组  public static<T> Stream<T> stream(T[] array) Arrays工具类中的静态方法
+    一堆零散数据 public static<T> Stream<T> of(T...values) Stream接口中的静态方法 需要是同种数据类型
+
+    

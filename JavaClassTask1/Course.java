@@ -1,9 +1,12 @@
 package JavaClassTask1;
 
+import java.util.Vector;
+
 public class Course {
     private String name;
     private String teacher;
     private int choosenum;
+    private  Vector<Student> students = new Vector<>();
     public Course() {
     }
 
@@ -38,5 +41,14 @@ public class Course {
     public void setChoosenum(int choosenum) {
         this.choosenum = choosenum;
     }
-    
+    public void addStudents(Student student){
+        if(!students.contains(student)){
+            students.add(student);
+        }
+    }
+    public void  showCourseStudents() {
+        for (Student student : students) {
+            System.out.println("学生姓名：" + student.getName() + " 学号：" + student.getId());
+        }
+    }
 }
