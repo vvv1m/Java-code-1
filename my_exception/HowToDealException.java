@@ -48,8 +48,37 @@ public class HowToDealException {
         }catch(ArithmeticException e){
             System.out.println("除数不能为0");
         }
-        System.out.println("1111");
+        System.out.println("2222");
+        //当出现多个问题，只要写多个catch与之对应即可
+        //细节 捕获多个异常，这些异常如果有父子关系，父类一定要写在下面
+        //JDK7以后，如果有多个异常，且处理方式是一样的，就可以在两个异常之间加|，如下
+        try{
+            System.out.println(arr[10]);
+            System.out.println(2/0);
+
+        }catch(ArrayIndexOutOfBoundsException | ArithmeticException e){
+            System.out.println("error");
+        }
+        System.out.println("2222");
         //3 如果try中的问题没有被捕获，怎么执行
+        //相当于try...catch中的代码白写了，虚拟机仍然会调用默认方法
+        // try{
+        //     System.out.println(arr[10]);
+        //     System.out.println(2/0);
+
+        // }catch(ArithmeticException e){
+        //     System.out.println("除数不能为0");
+        // }
+        // System.out.println("3333");
         //4 如果try中遇到了问题，那么try下面的代码还会执行吗
+        //不执行，直接跳转到catch，没有catch匹配就交给虚拟机处理
+        try{
+            System.out.println(arr[10]);
+            System.out.println("检测是否执行");//不会执行
+
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("error");
+        }
+        System.out.println("444");
     }
 }
