@@ -1,3 +1,41 @@
 {
-    "terminal.integrated.shellArgs.windows": ["/k", "chcp 65001"]
+    "terminal.integrated.shellArgs.windows": [
+        "/k",
+        "chcp 65001"
+    ],
+    "emmet.useInlineCompletions": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    
+    "terminal.integrated.profiles.windows": {
+        
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "Mini Conda":{
+            "source": "PowerShell",
+            "args": [
+                "-ExecutionPolicy",
+                "ByPass",
+                "-NoExit",
+                "-Command",
+                "&",
+                "D:\\miniconda\\shell\\condabin\\conda-hook.ps1",
+                "conda activate 'D:\\miniconda'"
+            ],
+            "icon": "terminal-powershell"
+        }
+
+    }
 }

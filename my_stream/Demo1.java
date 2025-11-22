@@ -31,7 +31,10 @@ public class Demo1 {
 
 
         //上述代码过于麻烦，如果使用stream流就会非常简单
-        list1.stream().filter(name->name.startsWith("张")).filter(name->name.length() == 3).forEach(name->System.out.println(name));
+        list1.stream()
+            .filter(name->name.startsWith("张"))
+            .filter(name->name.length() == 3)
+            .forEach(name->System.out.println(name));
 
     }
 }

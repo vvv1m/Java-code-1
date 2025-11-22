@@ -3,6 +3,7 @@ package my_file;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class UsualFunction {
     public static void main(String[] args) throws IOException{
@@ -55,17 +56,25 @@ public class UsualFunction {
         //public static File[] listRoots() 列出可用的文件系统根---即所有盘符
         //public String[] list() 获取当前该路径下所有内容的名称数组，仅能获取名字
         //public String[] list(FilenameFilter filter) 获取当前该路径下经过过滤器过滤后的内容名称数组
-        //accept中
-        String[] arr2 = f1.list(new FilenameFilter() {
+        //accept方法的形参，依次表示aaa文件夹中的每一个文件或者文件夹的路径
+        //参数一是父级路径，参数二是子级路径
+        //如果返回值是true，说明当前路径保留
+        //返回值是false，说明当前路径不要
+        // String[] arr2 = f1.list(new FilenameFilter() {
 
-            @Override
-            public boolean accept(File dir, String name) {
-                
-                return false;
-            }
+        //     @Override
+        //     public boolean accept(File dir, String name) {
+        //         File src = new File(dir, name);
+        //         //System.out.println(src);
+        //         return src.isFile() && name.endsWith(".txt");
+             
+        //     }
             
-        });
-        String[] arr3 = f1.list((dir,name)->name.endsWith(".txt"));
+        // });
+        String[] arr2 = f1.list((dir,name)->name.endsWith(".txt"));
+        System.out.println(Arrays.toString(arr2));
+        //public File[] ListFiles(FileFilter filter) 获取当前该路径下经过过滤器过滤后的内容File数组
+        //public File[] listFiles(FilenameFilter filter) 获取当前该路径下经过过滤器过滤后的内容File数组
 
     }
 }
