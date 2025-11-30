@@ -1,8 +1,13 @@
-D:\Java\Javacode\demo\src\main\java\com\example\servlet\CheckUsernameServlet.java
+D:\Java\Javacode\demo\src\main\java\com\example\model\Gallery.java
 D:\Java\Javacode\demo\src\main\java\com\example\servlet\LoginServlet.java
-D:\Java\Javacode\demo\src\main\java\com\example\servlet\LogoutServlet.java
 D:\Java\Javacode\demo\src\main\java\com\example\dao\UserDAO.java
-D:\Java\Javacode\demo\src\main\java\com\example\util\PasswordUtil.java
-D:\Java\Javacode\demo\src\main\java\com\example\model\User.java
 D:\Java\Javacode\demo\src\main\java\com\example\servlet\RegisterServlet.java
 D:\Java\Javacode\demo\src\main\java\com\example\util\DBUtil.java
+D:\Java\Javacode\demo\src\main\java\com\example\servlet\EditImageServlet.java
+D:\Java\Javacode\demo\src\main\java\com\example\servlet\CheckUsernameServlet.java
+D:\Java\Javacode\demo\src\main\java\com\example\servlet\LogoutServlet.java
+D:\Java\Javacode\demo\src\main\java\com\example\util\PasswordUtil.java
+D:\Java\Javacode\demo\src\main\java\com\example\model\User.java
+D:\Java\Javacode\demo\src\main\java\com\example\dao\GalleryDAO.java
+D:\Java\Javacode\demo\src\main\java\com\example\servlet\DeleteImageServlet.java
+D:\Java\Javacode\demo\src\main\java\com\example\servlet\AddImageServlet.java

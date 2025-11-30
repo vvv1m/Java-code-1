@@ -27,3 +27,14 @@ INSERT INTO users (username, password, email, phone, status) VALUES
 ('user1', 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', 'user1@example.com', '13800138001', 'active'),
 ('guest', 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', 'guest@example.com', '13800138002', 'active');
 -- 注：以上密码都是 123456 的 Base64 加密结果
+
+-- 创建图片画廊表
+CREATE TABLE IF NOT EXISTS gallery (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    image_url VARCHAR(500) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
