@@ -1,0 +1,21 @@
+[tool]
+name = "mcp-agent-project"
+version = "0.1.0"
+description = "A project implementing an MCP architecture agent."
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+# Add other dependencies here
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.0"
+# Add other development dependencies here
+
+[tool.poetry.scripts]
+mcp-agent = "src.main:main"

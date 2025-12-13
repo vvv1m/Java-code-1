@@ -8,7 +8,7 @@ public class Test {
         System.out.println(Arrays.toString(arr));
         //binarySearch 二分查找法查找元素
         //细节1：要求数组有序且为升序
-        //细节2：如果查找元素存在返回索引，不存在则返回 -插入点 - 1
+        //细节2：如果查找元素存在返回索引，不存在则返回---插入点 - 1
         //这里的插入点指的是该数据如果插入数组中，应该在哪个位置
         //减一的目的是为了防止出现-0，导致和0区分不开
         System.out.println(Arrays.binarySearch(arr, 2));
