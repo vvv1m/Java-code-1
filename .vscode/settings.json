@@ -37,5 +37,20 @@
             "icon": "terminal-powershell"
         }
 
+    },
+    "background.enabled": true,
+    "background.fullscreen": {
+        
+        
+
+        "useFront":true,
+        "style" : {
+            "background-position":"0% 100%",
+            "background-size" : "auto",
+            "opacity" : "0.8"
+        },
+        "images": ["file:///C:/Users/wangy/Desktop/%E7%85%A7%E7%89%87/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250407082218.png"],
+        "interval": 0,
+        "random": false
     }
 }
